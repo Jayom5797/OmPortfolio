@@ -1,0 +1,59 @@
+.desktop-root {
+  width: 100vw;
+  height: 100vh;
+  background: #111;
+  position: relative;
+  overflow: hidden;
+}
+
+.desktop-icons {
+  position: absolute;
+  top: 40px;
+  left: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  z-index: 2;
+}
+
+.desktop-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 70px;
+  cursor: pointer;
+}
+
+.desktop-icon img {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 0.5rem;
+}
+
+.desktop-icon span {
+  color: #fff;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.desktop-wallpaper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 1;
+}
+
+.desktop-wallpaper img {
+  width: 350px;
+  opacity: 0.15;
+}
+
+.desktop-wallpaper-text {
+  color: #aaa;
+  font-size: 2rem;
+  font-family: 'Orbitron', 'Montserrat', sans-serif;
+  margin-top: -40px;
+  letter-spacing: 0.2em;
+} 
