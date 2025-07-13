@@ -6,6 +6,7 @@ import NewsWidget from '../NewsWidget/NewsWidget';
 import TodoWidget from '../TodoWidget/TodoWidget';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import TechWidget from '../TechWidget/TechWidget';
+import MumbaiWeatherWidget from '../WeatherWidget/MumbaiWeatherWidget';
 import { useActions } from '../../hooks/useActions';
 import { useCloseModalIfClickedOutside } from '../../hooks/useCloseIfClickedOutside';
 
@@ -41,13 +42,8 @@ const WidgetsModalContent = (): JSX.Element => {
           headerIcon={'/assets/icons/widget/weather.svg'}
           iconSize={{ width: 20, height: 20 }}
         >
-          <WeatherWidget
-            location={'Toronto, Ontario'}
-            temperature={72}
-            forecastDetails={'Strong UV Today'}
-            humidity={0}
-            iconSrc={'/assets/icons/widget/sun.svg'}
-          />
+          {/* Mumbai Weather using Open-Meteo */}
+          <MumbaiWeatherWidget />
         </WidgetCard>
       </Styled.Header>
 

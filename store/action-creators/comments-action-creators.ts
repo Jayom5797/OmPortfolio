@@ -9,11 +9,6 @@ import {
 } from '../../frontend-rest-client/rest/comments';
 import { getErrorMessage } from '../../utils/getErrorMessage';
 
-/**
- *@Action creator, will dispatch action to load all submitted comments from DB, also will dispatch error action if async operation fails
- *@function loadAllReviews
- *@returns {function} - Redux thunk function
- */
 export const loadAllApprovedComments = () => {
   return async (dispatch: Dispatch<CommentAction>): Promise<void> => {
     dispatch({ type: CommentActionTypes.LOAD_ALL_COMMENTS });
@@ -21,7 +16,7 @@ export const loadAllApprovedComments = () => {
       const { data } = await getAllApprovedCommentsFromDB();
       dispatch({
         type: CommentActionTypes.COMMENTS_DID_LOAD,
-        payload: { total: data.total, comments: data.comments },
+        payload: { total: data.length, comments: data },
       });
     } catch (error) {
       if (error instanceof Error) {
@@ -34,22 +29,14 @@ export const loadAllApprovedComments = () => {
   };
 };
 
-/**
- *@Action creator, will dispatch action to persist a comment to DB, also will dispatch error action if async operation fails
- *@function uploadNewComment
- *@returns {function} - Redux thunk function
- */
-export const uploadNewComment = (newComment: {
-  author: string;
-  comment: string;
-}) => {
+export const uploadNewComment = (newComment: { name: string; comment: string; avatar: number }) => {
   return async (dispatch: Dispatch<CommentAction>): Promise<void> => {
     dispatch({ type: CommentActionTypes.PERSIST_COMMENT });
     try {
-      const { data } = await persistNewCommentToDB(newComment);
+      await persistNewCommentToDB(newComment);
       dispatch({
         type: CommentActionTypes.COMMENT_WAS_PERSISTED,
-        payload: data.success,
+        payload: true,
       });
     } catch (error) {
       dispatch({

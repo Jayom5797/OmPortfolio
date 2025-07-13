@@ -8,9 +8,10 @@ import Image from 'next/image';
  *@param {string} author - author name
  *@param {string} comment - comment text itself
  *@param {string} createdAt - timestamp where comment was written
+ *@param {number} avatar - avatar number
  *@returns {JSX.Element} - Rendered CardContent component
  */
-const Comment = ({ comment, createdAt, author }: IComment): JSX.Element => {
+const Comment = ({ comment, createdAt, author, avatar }: IComment): JSX.Element => {
   return (
     <Styled.Container>
       <Styled.Figure>
@@ -23,7 +24,7 @@ const Comment = ({ comment, createdAt, author }: IComment): JSX.Element => {
         </Styled.Date>
 
         <Image
-          src={`/assets/avatars/${Math.floor(Math.random() * 11 + 1)}.png`}
+          src={`/assets/avatars/${avatar || 1}.png`}
           width={150}
           height={150}
           objectFit={'contain'}

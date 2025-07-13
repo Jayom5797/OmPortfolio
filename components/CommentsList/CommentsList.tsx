@@ -40,17 +40,13 @@ const CommentsList = (): JSX.Element => {
         <WindowLoaderSkeleton />
       ) : (
         <Styled.Wrapper>
-          <Ticker direction="toRight">
-            {() => (
-              <Styled.UL>
-                {comments.map((comment) => (
-                  <Styled.LI key={comment._id}>
-                    <Comment {...comment} />
-                  </Styled.LI>
-                ))}
-              </Styled.UL>
-            )}
-          </Ticker>
+          <Styled.UL style={{ overflowX: 'auto', display: 'flex', gap: '3rem', margin: '0 2rem' }}>
+            {comments.map((comment) => (
+              <Styled.LI key={comment._id}>
+                <Comment {...comment} />
+              </Styled.LI>
+            ))}
+          </Styled.UL>
           <ActionButton
             onClick={handleLeaveComment}
             buttonText={'Leave your comment!'}

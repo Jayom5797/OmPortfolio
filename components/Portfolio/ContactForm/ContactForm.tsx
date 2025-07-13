@@ -1,4 +1,5 @@
 import React from 'react';
+import { sendEmailNotification } from '../../../utils/sendEmailNotification';
 import * as Styled from './ContactForm.styles';
 import { Form, Formik } from 'formik';
 import * as yup from 'yup';
@@ -32,6 +33,7 @@ const ContactForm = (): JSX.Element => {
         validationSchema={validationSchema}
         onSubmit={async (data) => {
           sendEmailViaSendgrid(data);
+          await sendEmailNotification('contact', data.message, data.name);
         }}
       >
         <Form>

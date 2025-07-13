@@ -22,11 +22,17 @@ const TechWidget = (): JSX.Element => {
         />
       </Styled.ReactFigure>
       <Styled.TextWrapper>
-        <TextHeader margin={'0'} isBold>
-          🔥 Powered by Next.js and React
+        <TextHeader margin={'0 0 0.5rem 0'} isBold>
+          Powered by
         </TextHeader>
-        <Paragraph margin={'0.5rem 0'}>
-          🇨🇦 Handcrafted by me © 2021 🇺🇦
+        <Paragraph margin={'0 0 0.5rem 0'}>
+          Build with React
+        </Paragraph>
+        <Paragraph margin={'0 0 0.5rem 0'}>
+          🔥 Powered by Next.js and React
+        </Paragraph>
+        <Paragraph margin={'0'}>
+          🇨🇦 Handcrafted by Om Singh
         </Paragraph>
       </Styled.TextWrapper>
     </Styled.Container>

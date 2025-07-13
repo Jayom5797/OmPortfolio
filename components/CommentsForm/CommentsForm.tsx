@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { sendEmailNotification } from '../../utils/sendEmailNotification';
 import * as Styled from './CommentsForm.styles';
 import * as yup from 'yup';
 import { Form, Formik } from 'formik';
@@ -8,8 +9,10 @@ import { FiSend } from 'react-icons/fi';
 import { useActions } from '../../hooks/useActions';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 
+const AVATAR_COUNT = 11;
+
 const validationSchema = yup.object({
-  author: yup.string().required('Please introduce Yourself'),
+  name: yup.string().required('Please introduce Yourself'),
   comment: yup.string().required('Please leave your comment'),
 });
 
@@ -23,6 +26,7 @@ const CommentsForm = (): JSX.Element => {
     (state) => state.comments
   );
   const { uploadNewComment } = useActions();
+  const [selectedAvatar, setSelectedAvatar] = useState(1);
 
   return (
     <Styled.Container isCommentPersisted={isCommentPersisted}>
@@ -42,15 +46,40 @@ const CommentsForm = (): JSX.Element => {
         </Styled.Text>
       </Styled.TextWrapper>
 
+      {/* Avatar Picker */}
+      <div style={{ display: 'flex', gap: 8, margin: '1rem 0', flexWrap: 'wrap', justifyContent: 'center' }}>
+        {Array.from({ length: AVATAR_COUNT }, (_, i) => i + 1).map((num) => (
+          <img
+          key={num}
+          src={`/assets/avatars/${num}.png`}
+          alt={`Avatar ${num}`}
+          style={{
+            width: 60,
+            height: 60,
+            borderRadius: '50%',
+            cursor: 'pointer',
+            background: '#fff',
+            border: selectedAvatar === num ? '2px solid #00e676' : '2px solid transparent',
+            boxShadow: selectedAvatar === num ? '0 0 8px #00e676' : 'none',
+            objectFit: 'cover', // ensures the image covers the box without distortion
+          }}
+          onClick={() => setSelectedAvatar(num)}
+        />
+        
+        ))}
+      </div>
+
       <Formik
-        initialValues={{ author: '', comment: '' }}
+        initialValues={{ name: '', comment: '' }}
         validationSchema={validationSchema}
-        onSubmit={async (data) => {
-          uploadNewComment(data);
+        onSubmit={async (data, { resetForm }) => {
+          uploadNewComment({ ...data, avatar: selectedAvatar });
+          await sendEmailNotification('comment', data.comment, data.name);
+          resetForm();
         }}
       >
         <Form>
-          <FormikTextField placeholder="name" name="author" type="text" />
+          <FormikTextField placeholder="name" name="name" type="text" />
           <FormikTextField placeholder="comment" name="comment" type="text" />
 
           <ActionButton

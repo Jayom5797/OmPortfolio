@@ -8,6 +8,7 @@ export interface IComment {
   author: string;
   isApproved: boolean;
   createdAt: string;
+  avatar: number;
 }
 
 /**

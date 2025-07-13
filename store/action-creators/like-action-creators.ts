@@ -9,11 +9,6 @@ import {
 } from '../../frontend-rest-client/rest/likes';
 import { getErrorMessage } from '../../utils/getErrorMessage';
 
-/**
- *@Action creator, will dispatch action to load all submitted likes from DB, also will dispatch error action if async operation fails
- *@function loadAllReviews
- *@returns {function} - Redux thunk function
- */
 export const getAllLikes = () => {
   return async (dispatch: Dispatch<LikeAction>): Promise<void> => {
     dispatch({ type: LikesActionTypes.LOAD_ALL_LIKES });
@@ -21,7 +16,7 @@ export const getAllLikes = () => {
       const { data } = await getAllLikesFromDB();
       dispatch({
         type: LikesActionTypes.LIKES_DID_LOAD,
-        payload: data.totalLikes,
+        payload: data.length,
       });
     } catch (error) {
       dispatch({
@@ -32,19 +27,14 @@ export const getAllLikes = () => {
   };
 };
 
-/**
- *@Action creator, will dispatch action to persist a like to DB, also will dispatch error action if async operation fails
- *@function loadAllReviews
- *@returns {function} - Redux thunk function
- */
-export const postLike = () => {
+export const postLike = (user_id: string) => {
   return async (dispatch: Dispatch<LikeAction>): Promise<void> => {
     dispatch({ type: LikesActionTypes.PERSIST_LIKE });
     try {
-      const { data } = await persistNewLikeToDB();
+      await persistNewLikeToDB(user_id);
       dispatch({
         type: LikesActionTypes.LIKE_WAS_PERSISTED,
-        payload: data.success,
+        payload: true,
       });
     } catch (error) {
       dispatch({

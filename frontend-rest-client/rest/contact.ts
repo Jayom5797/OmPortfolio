@@ -1,15 +1,8 @@
 import { AxiosResponse } from 'axios';
 import { makeRequest } from '../makeRequest';
-import { ContactFormData } from '../../types/redux/contact-reducer-types';
 
-/**
- *@api will make POST request to /contact, thereby sending email via sendgrid
- *@function sendEmail
- *@returns {object} - promise with success status
- */
-export const sendEmailWith = (
-  contactFormData: ContactFormData
-): Promise<AxiosResponse<{ success: boolean }>> => {
+// Send contact form
+export const sendEmailWith = (contactFormData: { name: string; email: string; message: string }): Promise<AxiosResponse<any>> => {
   return makeRequest({
     url: '/api/contact',
     method: 'POST',

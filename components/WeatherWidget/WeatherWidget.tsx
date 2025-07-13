@@ -32,16 +32,7 @@ const WeatherWidget = ({
 }: Props): JSX.Element => {
   return (
     <Styled.Container>
-      <Styled.ImageWrapper>
-        <Image
-          src={iconSrc}
-          width={60}
-          height={60}
-          quality={100}
-          objectFit={'contain'}
-          alt={`In ${location} ${forecastDetails} is expected. Temperature ${temperature}. Humidity ${humidity}`}
-        />
-      </Styled.ImageWrapper>
+
 
       <Styled.ForecastWrapper>
         <Styled.Location>

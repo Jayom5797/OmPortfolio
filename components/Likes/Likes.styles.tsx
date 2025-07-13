@@ -2,7 +2,12 @@ import styled from 'styled-components';
 import { likeKeyframe, slidInCenter } from '../../design-system/reusableCss';
 
 export const Container = styled.div`
-  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+  background: transparent;
 `;
 
 export const LikesWrapper = styled.div`
@@ -10,10 +15,15 @@ export const LikesWrapper = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  height: 100%;
-  width: 100%;
   gap: ${({ theme }) => theme.space.lg};
   animation: ${slidInCenter} 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  padding: 2.5rem 2.5rem 2rem 2.5rem;
+  max-width: 600px;
+  width: 100%;
+  background-image: ${({ theme }) => theme.gradients.lightGrayGradient};
+  border-radius: 1.2rem;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.09);
+  margin-top: 5vh;
 `;
 
 interface Props {
@@ -73,6 +83,14 @@ export const Digit = styled.h3`
 `;
 
 export const Message = styled.h2`
-  font-size: 3rem;
+  font-size: 2.1rem;
   color: ${({ theme }) => theme.primary.text};
+  text-align: center;
+`;
+
+export const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 1.2rem;
 `;

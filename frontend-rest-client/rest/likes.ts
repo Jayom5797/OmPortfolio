@@ -1,33 +1,20 @@
 import { AxiosResponse } from 'axios';
 import { makeRequest } from '../makeRequest';
-/**
- * @EXPORTS
- */
-export { getAllLikesFromDB, persistNewLikeToDB };
 
-/**
- *@api will make GET request to /api/reviews/
- *@function getAllSubmittedReviews
- *@returns {object} - promise with success and product fields
- */
-const getAllLikesFromDB = (): Promise<
-  AxiosResponse<{ success: boolean; totalLikes: number }>
-> => {
+// Fetch all likes
+export const getAllLikesFromDB = (): Promise<AxiosResponse<any[]>> => {
   return makeRequest({
-    url: '/api/likes/',
+    url: '/api/likes',
     method: 'GET',
   });
 };
 
-/**
- *@api will make POST request to /api/like
- *@function persistNewLikeInDB
- *@returns {object} - promise with success status
- */
-const persistNewLikeToDB = (): Promise<AxiosResponse<{ success: boolean }>> => {
+// Add a like
+export const persistNewLikeToDB = (user_id: string): Promise<AxiosResponse<any>> => {
   return makeRequest({
     url: '/api/likes',
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
+    data: { user_id },
   });
 };
