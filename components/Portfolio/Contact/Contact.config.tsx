@@ -12,7 +12,7 @@ export const useContactConfig = (): { myContacts: IMyContact[] } => {
       id: 1,
       icon: <FiTwitter className={'contact-icon'} />,
       text: 'Twitter',
-      href: 'https://twitter.com/vova_ush',
+      href: 'https://twitter.com/07OmSingh',
     },
     {
       id: 2,
