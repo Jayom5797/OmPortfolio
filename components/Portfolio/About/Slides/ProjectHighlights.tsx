@@ -91,10 +91,10 @@ const projects = [
     title: "SMART CITY DB",
     image: "/projects/p6.jpeg",
     shortDesc: "Dashboard for real-time smart city analytics.",
-    fullDesc: "A smart city dashboard and analytics platform.",
+    fullDesc: "A smart city dashboard and analytics platform with multi type user support and admin panels integrated with multiple APIs.",
     features: [
-      "🏙️ Feature one",
-      "🏙️ Feature two",
+      "🏙️ Multi Type User Support",
+      "🏙️ Admin Panel",
       "🏙️ Feature three",
       "🏙️ Feature four",
       "🏙️ Feature five"
@@ -106,7 +106,6 @@ const projects = [
 ];
 
 const ProjectHighlights: React.FC = () => {
-  const [active, setActive] = useState<string|null>(null);
   return (
     <section className="ph-animated-bg">
       <style jsx>{`
@@ -224,87 +223,39 @@ const ProjectHighlights: React.FC = () => {
         }
       `}</style>
       <div className="ph-title-box">Project Highlights</div>
-      <div className="ph-grid" style={{ filter: active ? 'blur(2px) brightness(0.7)' : 'none', pointerEvents: active ? 'none' : 'auto' }}>
+      <div className="ph-grid">
         {projects.map(project => (
-          <div
-            className="ph-card"
-            key={project.key}
-            onMouseEnter={() => setActive(project.key)}
-            onClick={() => setActive(project.key)}
-            tabIndex={0}
-            style={{ cursor: 'pointer' }}
-          >
-            <img src={project.image} alt={project.title} />
-            <div className="ph-card-content">
-              <h3>{project.title}</h3>
-              <div>{project.shortDesc}</div>
+          <div key={project.key}>
+            <div className="ph-card">
+              <img src={project.image} alt={project.title} />
+              <div className="ph-card-content">
+                <h3>{project.title}</h3>
+                <div>{project.shortDesc}</div>
+                <div style={{ display: 'flex', gap: 14, justifyContent: 'flex-start', marginTop: 12 }}>
+                  <a
+                    href={project.repoUrl || '#'}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ fontSize: 22, textDecoration: 'none', cursor: 'pointer', transition: 'transform 0.15s', color: '#fff' }}
+                    title="View on GitHub"
+                  >
+                    💻
+                  </a>
+                  <a
+                    href={project.liveUrl || '#'}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ fontSize: 22, textDecoration: 'none', cursor: 'pointer', transition: 'transform 0.15s', color: '#2bff88' }}
+                    title="View Live Page"
+                  >
+                    🌐
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         ))}
       </div>
-      {active && (
-        <div
-          className="ph-overlay"
-          onClick={() => setActive(null)}
-          style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 50, background: 'rgba(20,24,36,0.45)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-        >
-          <div
-            className="ph-pilecard"
-            onClick={e => e.stopPropagation()}
-            style={{
-              background: 'linear-gradient(-45deg, #23293e 0%, #1a237e 40%, #23293e 60%, #1a237e 100%)',
-              borderRadius: 32,
-              boxShadow: '0 8px 48px #0007',
-              padding: '40px 48px',
-              minWidth: 370,
-              maxWidth: 520,
-              width: '94vw',
-              color: '#fff',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              animation: 'ph-fadein 0.18s',
-              position: 'relative'
-            }}
-          >
-            <img
-              src={projects.find(p => p.key === active)?.image}
-              alt={projects.find(p => p.key === active)?.title}
-              style={{ width: 320, height: 180, borderRadius: 20, objectFit: 'cover', marginBottom: 24 }}
-            />
-            <h2 style={{ color: '#2bff88', fontWeight: 900, fontSize: 32, textTransform: 'uppercase', margin: '0 0 18px 0', textAlign: 'center', letterSpacing: 1 }}>{projects.find(p => p.key === active)?.title}</h2>
-            <div style={{ fontSize: 18, marginBottom: 16, textAlign: 'center', color: '#fff' }}>{projects.find(p => p.key === active)?.fullDesc}</div>
-            <ul style={{ margin: 0, padding: 0, marginBottom: 18, listStyle: 'none', textAlign: 'left', width: '100%' }}>
-              {projects.find(p => p.key === active)?.features.map((f, i) => (
-                <li key={i} style={{ marginBottom: 6, fontSize: 16 }}>{f}</li>
-              ))}
-            </ul>
-            <div style={{ fontWeight: 700, color: '#2bff88', fontSize: 17, marginBottom: 12, textAlign: 'center' }}>
-              Tech Stack: {projects.find(p => p.key === active)?.techStack}
-            </div>
-            <div style={{ display: 'flex', gap: 24, justifyContent: 'center', marginTop: 10 }}>
-              <a
-                href={projects.find(p => p.key === active)?.repoUrl || '#'}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ fontSize: 22, textDecoration: 'none', cursor: 'pointer', transition: 'transform 0.15s', color: '#fff' }}
-                title="View on GitHub"
-              >
-                💻
-              </a>
-              <a
-                href={projects.find(p => p.key === active)?.liveUrl || '#'}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ fontSize: 22, textDecoration: 'none', cursor: 'pointer', transition: 'transform 0.15s', color: '#2bff88' }}
-                title="View Live Page"
-              >
-                🌐
-              </a>
-            </div>
-          </div>
-        </div>
-      )}
     </section>
   );
 };

@@ -8,8 +8,11 @@ import TapHint from '../TapHint/TapHint';
  *@function PortfolioLanding
  *@returns {JSX.Element} - Rendered PortfolioLanding component
  */
+import { useEffect } from 'react';
+
 const PortfolioLanding = (): JSX.Element => {
   const [isMenuExpanded, setIsMenuExpanded] = useState<boolean>(false);
+  // If you want to skip the landing animation on key press, handle it via parent (Loader/index.tsx)
 
   const handleStopPropagation = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>

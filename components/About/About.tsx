@@ -31,12 +31,10 @@ const About = (): JSX.Element => {
       <Styled.InfoWrapper>
         <Paragraph margin={'1rem 0'}>Next.js Windows OS</Paragraph>
         <Paragraph margin={'1rem 0'}>
-          Built by Om Singh ©2021 All rights reserved
+          Built by Om Singh ©2025 Open for collabs
         </Paragraph>
         <Paragraph margin={'2rem 0'}>
-          This Web Operating System emulation and its user interface are
-          protected by the trademark and other pending or existing intellectual
-          property rights in Canada and other countries/regions.
+        This Web Operating System emulation and its user interface are intended for portfolio demonstration purposes only and are protected by applicable intellectual property rights.
         </Paragraph>
 
         <Paragraph margin={'2rem 0'}>
@@ -48,8 +46,8 @@ const About = (): JSX.Element => {
         <Paragraph margin={'1rem 0'}>
           Feel free to contact
           <WithSparkles color={'rgb(255,215,0)'}>
-            <Styled.A href="mailto:volodymyr.ushenko@gmail.com">
-              hello@vova.codes
+            <Styled.A href="mailto:jayom5797@gmail.com">
+              jayom5797@gmail.com
             </Styled.A>
           </WithSparkles>
         </Paragraph>

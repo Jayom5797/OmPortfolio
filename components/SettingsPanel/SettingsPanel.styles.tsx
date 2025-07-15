@@ -10,7 +10,9 @@ export const Container = styled.div`
   }
 
   .icon {
-    font-size: 1.2rem;
+    width: 32px;
+    height: 32px;
+    font-size: 32px;
   }
 `;
 

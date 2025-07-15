@@ -1,6 +1,7 @@
 import type { GetStaticProps, NextPage } from 'next';
 import React, { useEffect, useState } from 'react';
 import Desktop from '../components/Desktop/Desktop';
+import DesktopMobile from '../components/Mobile/DesktopMobile';
 import DesktopLayout from '../components/DesktopLayout/DesktopLayout';
 import { wrapper } from '../store';
 import { loadLatestNews } from '../store/action-creators/news-action-creators';
@@ -33,27 +34,32 @@ const Home: NextPage<ServerProps> = ({ title }) => {
   const LOADING_INTRO_DURATION = 6000;
 
   useEffect(() => {
-    setTimeout(() => {
+    // Allow skipping intro with any key
+    if (!isLoading) return;
+    const handleKeyDown = () => {
+      notShowIntroAgain();
+      setIsLoading(false);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    const timeout = setTimeout(() => {
       notShowIntroAgain();
       setIsLoading(false);
     }, LOADING_INTRO_DURATION);
-  }, []);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      clearTimeout(timeout);
+    };
+  }, [isLoading, notShowIntroAgain]);
 
   return (
     <>
       <Loader isOnScreen={isLoading} loadingDuration={LOADING_INTRO_DURATION} />
-      {isOnMobile ? (
-        <PortfolioLayout title={'Om Singh | Full-Stack Web Developer'}>
-          <PortfolioLanding />
-        </PortfolioLayout>
-      ) : (
-        <DesktopLayout
-          title={title}
-          entranceAnimationDelay={LOADING_INTRO_DURATION + 200}
-        >
-          <Desktop />
-        </DesktopLayout>
-      )}
+      <DesktopLayout
+        title={title}
+        entranceAnimationDelay={isLoading ? LOADING_INTRO_DURATION + 200 : 0}
+      >
+        {isOnMobile ? <DesktopMobile /> : <Desktop />}
+      </DesktopLayout>
     </>
   );
 };

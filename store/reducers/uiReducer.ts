@@ -4,8 +4,16 @@ import {
   UIstate,
 } from '../../types/redux/ui-reducer-types';
 
+const getInitialTheme = () => {
+  if (typeof window !== 'undefined') {
+    const stored = localStorage.getItem('theme');
+    if (stored === 'light' || stored === 'dark') return stored;
+  }
+  return 'dark';
+};
+
 const initialUIstate: UIstate = {
-  theme: 'dark',
+  theme: getInitialTheme(),
   screenBrightness: '100',
   isWidgetOpen: false,
   isAppCenterOpen: false,

@@ -15,15 +15,10 @@ export interface Props {
  *@returns {JSX.Element} - Rendered CardContent component
  */
 const Loader = ({ isOnScreen, loadingDuration }: Props): JSX.Element => {
-  const [isLogoExpanded, setIsLogoExpanded] = useState(true);
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLogoExpanded(false);
-    }, loadingDuration - 1000);
-  }, [loadingDuration]);
+  // Instantly respond to isOnScreen for instant skip
   return (
     <Styled.Container isOnScreen={isOnScreen} loadingDuration={loadingDuration}>
-      <Logo isExpanded={isLogoExpanded} />
+      <Logo isExpanded={isOnScreen} />
       <Styled.TextContainer>
         <Styled.ScrollText>
           JavaScript <br />

@@ -4,6 +4,7 @@ import Head from 'next/head';
 import SystemTray from '../SystemTray/SystemTray';
 import OpenedWindows from '../OpenedWindows/OpenedWindows';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
+import { useMediaQuery } from '@react-hook/media-query';
 
 export interface Props {
   title: string;
@@ -27,6 +28,8 @@ const DesktopLayout: FC<Props> = ({
     (state) => state.ui
   );
 
+    const isOnMobile = useMediaQuery('only screen and (max-width: 768px)');
+
   return (
     <>
       <Head>
@@ -46,7 +49,7 @@ const DesktopLayout: FC<Props> = ({
       >
         {children}
         <OpenedWindows />
-        <SystemTray />
+        {!isOnMobile && <SystemTray />}
       </Styled.Container>
     </>
   );
