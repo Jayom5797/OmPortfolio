@@ -34,19 +34,26 @@ const Home: NextPage<ServerProps> = ({ title }) => {
   const LOADING_INTRO_DURATION = 6000;
 
   useEffect(() => {
-    // Allow skipping intro with any key
     if (!isLoading) return;
+    // Desktop: skip with any key
     const handleKeyDown = () => {
       notShowIntroAgain();
       setIsLoading(false);
     };
+    // Mobile: skip with custom event
+    const handleSkipLoader = () => {
+      notShowIntroAgain();
+      setIsLoading(false);
+    };
     window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('skipLoader', handleSkipLoader);
     const timeout = setTimeout(() => {
       notShowIntroAgain();
       setIsLoading(false);
     }, LOADING_INTRO_DURATION);
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('skipLoader', handleSkipLoader);
       clearTimeout(timeout);
     };
   }, [isLoading, notShowIntroAgain]);

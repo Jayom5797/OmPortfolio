@@ -110,3 +110,13 @@ export const Wrapper = styled.div`
   align-items: center;
   justify-content: center;
 `;
+
+import { createGlobalStyle } from 'styled-components';
+
+export const RecommendedHideOnMobile = createGlobalStyle`
+  @media (max-width: 900px) {
+    .recommended-hide-on-mobile {
+      display: none !important;
+    }
+  }
+`;

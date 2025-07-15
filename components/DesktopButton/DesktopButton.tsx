@@ -1,5 +1,6 @@
 import React, { ReactNode, useCallback, useRef, useState } from 'react';
 import * as Styled from './DesktopButton.styles';
+import { RecommendedHideOnMobile } from './DesktopButton.styles';
 import Paragraph from '../Typography/Paragraph/Paragraph';
 import Image from 'next/image';
 import { useActions } from '../../hooks/useActions';
@@ -41,6 +42,10 @@ const DesktopButton = ({
   action,
   ...rest
 }: Props): JSX.Element => {
+  // Inject mobile hide style for recommended text
+  // This must be rendered at least once in the tree
+  // so we do it here for all DesktopButtons
+  // (it only injects once globally)
   const buttonRef = useRef(null);
   const { openWindow } = useActions();
   // size of icons is controlled by user through global state (redux/ui-reducer), this applies only to desktop button variant
@@ -75,6 +80,54 @@ const DesktopButton = ({
   });
 
   return (
+    <>
+      <RecommendedHideOnMobile />
+      <Styled.Wrapper>
+        <Styled.ButtonContainer
+          ref={buttonRef}
+          onClick={action !== null ? action : handleOpenWindow}
+          onContextMenu={handleOpenContextMenu}
+          iconSize={iconsSize}
+          variant={variant}
+          {...rest}
+        >
+          <Styled.Figure>
+            <div>
+              <Image
+                src={iconSrc}
+                alt={text}
+                height={iconSize.height}
+                width={iconSize.width}
+                objectFit={'contain'}
+                quality={100}
+              />
+            </div>
+            {['pinnedApp', 'desktop'].includes(variant) && (
+              <Styled.Figcaption>
+                <Paragraph margin={'0rem'}>{text}</Paragraph>
+              </Styled.Figcaption>
+            )}
+            {variant === 'recommendedApp' && (
+              <Styled.RecommendedAppDescription className="recommended-hide-on-mobile">
+                <Styled.FileName className="recommended-hide-on-mobile">{text}</Styled.FileName>
+                {/* Paragraph does not support className, so wrap in span */}
+                <span className="recommended-hide-on-mobile"><Paragraph margin={'0rem'}>{details}</Paragraph></span>
+              </Styled.RecommendedAppDescription>
+            )}
+          </Styled.Figure>
+        </Styled.ButtonContainer>
+        {variant === 'desktop' && isContextMenuOpen && (
+          <AppContextMenu
+            appName={text}
+            iconSrc={iconSrc}
+            willOpenWindowWith={willOpenWindowWith}
+          />
+        )}
+      </Styled.Wrapper>
+    </>
+  );
+
+  return (
     <Styled.Wrapper>
       <Styled.ButtonContainer
         ref={buttonRef}
@@ -102,11 +155,12 @@ const DesktopButton = ({
           )}
 
           {variant === 'recommendedApp' && (
-            <Styled.RecommendedAppDescription>
-              <Styled.FileName>{text}</Styled.FileName>
-              <Paragraph margin={'0rem'}>{details}</Paragraph>
-            </Styled.RecommendedAppDescription>
-          )}
+        <Styled.RecommendedAppDescription className="recommended-hide-on-mobile">
+          <Styled.FileName className="recommended-hide-on-mobile">{text}</Styled.FileName>
+          {/* Paragraph does not support className, so wrap in span */}
+          <span className="recommended-hide-on-mobile"><Paragraph margin={'0rem'}>{details}</Paragraph></span>
+        </Styled.RecommendedAppDescription>
+      )}    )}
         </Styled.Figure>
       </Styled.ButtonContainer>
 

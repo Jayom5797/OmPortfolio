@@ -12,9 +12,13 @@ const WindowContentWithLoader = ({ content }: { content: React.ReactNode }) => {
     const t = setTimeout(() => setShowLoader(false), 300);
     return () => clearTimeout(t);
   }, []);
+
+  // Handler to skip loader instantly
+  const handleSkipLoader = () => setShowLoader(false);
+
   return (
     <div style={{ height: 'calc(100% - 48px)', overflowY: 'auto', background: '#222' }}>
-      {showLoader ? <WindowLoaderMobile /> : content}
+      {showLoader ? <WindowLoaderMobile onSkip={handleSkipLoader} /> : content}
     </div>
   );
 };

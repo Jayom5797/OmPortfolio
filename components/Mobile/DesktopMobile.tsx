@@ -58,21 +58,33 @@ const DesktopMobile = () => {
               alt="display"
               onClick={toggleSettingsModal}
               style={{ cursor: 'pointer' }}
+              tabIndex={0}
+              role="button"
+              aria-label="Open Settings"
+              onKeyPress={e => (e.key === 'Enter' || e.key === ' ') && toggleSettingsModal()}
             />
             <img
               src={theme === 'light' ? "/assets/icons/taskbar/wifi-dark.svg" : "/assets/icons/taskbar/wifi.svg"}
               alt="wifi"
               onClick={toggleSettingsModal}
               style={{ cursor: 'pointer' }}
+              tabIndex={0}
+              role="button"
+              aria-label="Open Settings"
+              onKeyPress={e => (e.key === 'Enter' || e.key === ' ') && toggleSettingsModal()}
             />
             <img
               src={theme === 'light' ? "/assets/icons/taskbar/sound-dark.svg" : "/assets/icons/taskbar/sound.svg"}
               alt="sound"
               onClick={toggleSettingsModal}
               style={{ cursor: 'pointer' }}
+              tabIndex={0}
+              role="button"
+              aria-label="Open Settings"
+              onKeyPress={e => (e.key === 'Enter' || e.key === ' ') && toggleSettingsModal()}
             />
           </div>
-          <div className={styles.clockBar} onClick={openCalendarModal} style={{cursor:'pointer', display:'flex', alignItems:'center'}}>
+          <div className={styles.clockBar} onClick={openCalendarModal} style={{cursor:'pointer', display:'flex', alignItems:'center'}} tabIndex={0} role="button" aria-label="Open Calendar" onKeyPress={e => (e.key === 'Enter' || e.key === ' ') && openCalendarModal()}>
             <span>{date}</span>
             <span style={{marginLeft: '0.5rem'}}>{time}</span>
           </div>
@@ -138,6 +150,26 @@ const DesktopMobile = () => {
       {/* Vertical taskbar on the right */}
       <VerticalTaskbar />
       {/* All opened windows are rendered here, including app windows, with smooth animation and instant launch. */}
+      {/* Settings Modal */}
+      {areSettingsOpen && (
+        <SlidingModal
+          variant="settingsModal"
+          width="90vw"
+          position={{ top: '0', right: '0' }}
+        >
+          <SettingsModalContent />
+        </SlidingModal>
+      )}
+      {/* Calendar Modal */}
+      {isCalendarOpen && (
+        <SlidingModal
+          variant="calendarModal"
+          width="90vw"
+          position={{ top: '70px', right: '0' }}
+        >
+          <CalendarWidget />
+        </SlidingModal>
+      )}
       <OpenedWindowsMobile />
     </div>
   );

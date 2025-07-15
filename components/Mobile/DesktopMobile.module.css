@@ -88,7 +88,7 @@
 
 @media (max-width: 900px) {
   .appGrid {
-    grid-template-columns: repeat(4, 64px);
+    grid-template-columns: repeat(2, 64px);
     grid-template-rows: repeat(3, 64px);
     gap: 20px 16px;
     padding: 32px 0 0 24px;

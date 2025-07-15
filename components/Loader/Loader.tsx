@@ -15,9 +15,38 @@ export interface Props {
  *@returns {JSX.Element} - Rendered CardContent component
  */
 const Loader = ({ isOnScreen, loadingDuration }: Props): JSX.Element => {
-  // Instantly respond to isOnScreen for instant skip
+  // Mobile tap-to-skip logic
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 900;
+  const handleTapToSkip = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (isMobile && typeof window !== 'undefined') {
+      // Simulate the same effect as key-to-skip: dispatch event or call skip logic
+      const skipEvent = new Event('skipLoader');
+      window.dispatchEvent(skipEvent);
+    }
+  };
+
+  useEffect(() => {
+    if (!isMobile) return;
+    // Listen for the custom skip event
+    const skipListener = () => {
+      // If parent listens for isOnScreen, it should respond to this event
+      // Otherwise, reload or hide loader
+      // This is a placeholder; actual skip logic is in parent
+    };
+    window.addEventListener('skipLoader', skipListener);
+    return () => window.removeEventListener('skipLoader', skipListener);
+  }, [isMobile]);
+
   return (
-    <Styled.Container isOnScreen={isOnScreen} loadingDuration={loadingDuration}>
+    <Styled.Container
+      isOnScreen={isOnScreen}
+      loadingDuration={loadingDuration}
+      onClick={isMobile ? handleTapToSkip : undefined}
+      style={isMobile ? { cursor: 'pointer', userSelect: 'none' } : {}}
+      role={isMobile ? 'button' : undefined}
+      tabIndex={isMobile ? 0 : undefined}
+      aria-label={isMobile ? 'Tap to skip loader' : undefined}
+    >
       <Logo isExpanded={isOnScreen} />
       <Styled.TextContainer>
         <Styled.ScrollText>
@@ -28,6 +57,11 @@ const Loader = ({ isOnScreen, loadingDuration }: Props): JSX.Element => {
           Node.js <br />
           Om Singh 🕉️
         </Styled.ScrollText>
+        {isMobile && (
+          <div style={{ color: '#aaa', fontSize: 14, marginTop: 16, textAlign: 'center' }}>
+            Tap to skip
+          </div>
+        )}
       </Styled.TextContainer>
     </Styled.Container>
   );

@@ -8,7 +8,7 @@ import About from '../About/About';
 export const taskbarApps = [
   {
     name: 'Start',
-    icon: '/assets/icons/taskbar/windows.png',
+    icon: '/assets/icons/taskbar/Windows.png',
     action: undefined,
     willOpenWindowWith: <AppCenter />,
   },
