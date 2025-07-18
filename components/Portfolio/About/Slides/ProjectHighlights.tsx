@@ -158,6 +158,29 @@ const ProjectHighlights: React.FC = () => {
           .ph-grid {
             grid-template-columns: 1fr;
           }
+          .ph-card {
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 12px 10px;
+            height: auto;
+            min-height: unset;
+          }
+          .ph-card img {
+            width: 80px;
+            height: 80px;
+            margin: 0 0 12px 0;
+          }
+          .ph-card .ph-card-content {
+            width: 100%;
+            min-width: 0;
+          }
+          .ph-card h3 {
+            font-size: 1rem;
+            margin-bottom: 4px;
+            white-space: normal;
+            text-overflow: unset;
+            overflow: visible;
+          }
         }
         .ph-card {
           background: rgba(30,40,60,0.7);

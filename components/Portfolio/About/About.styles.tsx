@@ -4,14 +4,24 @@ import styled from 'styled-components';
 //scrollbar snap
 
 export const Container = styled.div`
-  height: 100vh;
+  width: 100vw;
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 0 1rem;
+
+  @media (max-width: 768px) {
+    padding: 0 0.5rem;
+    min-height: unset;
+    height: auto;
+    overflow-y: visible;
+  }
 
   @media ${({ theme }) => theme.media.desktop} {
-    /**
-    * Scroll snapping will be applied only on desktop screens
-    */
+    /* Scroll snapping only on desktop screens */
     scroll-snap-type: y mandatory;
     overflow-y: scroll;
     scroll-behavior: smooth;
+    height: 100vh;
+    padding: 0 2rem;
   }
 `;

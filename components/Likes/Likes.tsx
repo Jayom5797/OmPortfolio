@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { sendEmailNotification } from '../../utils/sendEmailNotification';
+import { sendTwilioNotification } from '../../utils/sendTwilioNotification';
 import * as Styled from './Likes.styles';
 import ActionButton from '../Portfolio/ActionButton/ActionButton';
 import { Formik, Form } from 'formik';
@@ -31,7 +32,8 @@ const Likes = (): JSX.Element => {
     }
     postLike(values.name);
     clearLikeState();
-    await sendEmailNotification('like', 'Someone liked your portfolio!', values.name);
+    await sendEmailNotification('like', 'Someone liked your portfolio!', 'Portfolio Bot');
+    await sendTwilioNotification('like', 'Someone liked your portfolio!', 'Portfolio Bot');
     resetForm();
   };
 

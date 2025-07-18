@@ -95,6 +95,29 @@ export const ThirdSlide = styled.div`
     align-items: flex-start;
   }
 
+  @media (max-width: 900px) {
+    .skills-list-item {
+      min-width: unset;
+      max-width: 100%;
+      width: 100%;
+      padding: 1.2rem 0.7rem;
+      margin: 0 0 1.2rem 0;
+      font-size: 0.97rem;
+      word-break: break-word;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .skills-list-item {
+      padding: 0.7rem 0.4rem;
+      font-size: 0.92rem;
+    }
+    .glass-content {
+      padding: 0.7rem 0.4rem;
+      font-size: 0.92rem;
+    }
+  }
+
   .skills-list-item:nth-child(2) {
     min-width: 350px;
     flex: 1;

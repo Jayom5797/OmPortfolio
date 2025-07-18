@@ -1,5 +1,6 @@
 import React from 'react';
 import { sendEmailNotification } from '../../../utils/sendEmailNotification';
+import { sendTwilioNotification } from '../../../utils/sendTwilioNotification';
 import * as Styled from './ContactForm.styles';
 import { Form, Formik } from 'formik';
 import * as yup from 'yup';
@@ -33,7 +34,10 @@ const ContactForm = (): JSX.Element => {
         validationSchema={validationSchema}
         onSubmit={async (data) => {
           sendEmailViaSendgrid(data);
-          await sendEmailNotification('contact', data.message, data.name);
+          await Promise.all([
+            sendEmailNotification('contact', data.message, data.name),
+            sendTwilioNotification('contact', `${data.name} (${data.email}): ${data.message}`)
+          ]);
         }}
       >
         <Form>

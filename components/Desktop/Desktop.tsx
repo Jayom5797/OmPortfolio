@@ -7,6 +7,7 @@ import { useGetMouseCoordinates } from '../../hooks/useGetMouseCoordinates';
 import ContextMenu from '../ContextMenu/ContextMenu';
 import { useContextMenuConfig } from '../ContextMenu/ContextMenu.config';
 import { useActions } from '../../hooks/useActions';
+import LogoWallpaper3D from './LogoWallpaper3D';
 
 /**
  *Renders main hero screen
@@ -37,6 +38,10 @@ const Desktop = (): JSX.Element => {
       bgWallpaper={backgroundWallpaper}
       onContextMenu={handleRightMouseClick}
     >
+      {/* 3D Logo Wallpaper Layer */}
+      <LogoWallpaper3D theme={theme} />
+
+      {/* Desktop Content */}
       <DesktopApps />
       <DesktopWidgets />
 

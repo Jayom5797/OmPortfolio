@@ -6,11 +6,23 @@ import {
 } from '../../../design-system/reusableCss';
 
 export const Container = styled.section`
-  height: 100vh;
+  width: 100vw;
+  min-height: 100vh;
+  box-sizing: border-box;
+  max-width: 100%;
+  overflow-x: hidden;
+
+  @media (max-width: 768px) {
+    min-height: unset;
+    height: auto;
+    padding: 0 0.5rem;
+  }
 
   @media ${({ theme }) => theme.media.desktop} {
     scroll-snap-type: y mandatory;
     overflow-y: scroll;
+    height: 100vh;
+    padding: 0 2rem;
   }
 `;
 

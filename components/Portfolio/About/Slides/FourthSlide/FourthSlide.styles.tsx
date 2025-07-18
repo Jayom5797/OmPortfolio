@@ -78,17 +78,39 @@ export const FourthSlide = styled.div`
     .left-column {
       width: 100%;
       height: 100%;
-      padding: 2rem;
+      max-width: 100%;
+      min-width: unset;
+      padding: 1.2rem 0.7rem;
+      box-sizing: border-box;
+      word-break: break-word;
 
       h1 {
-        font-size: 2.5rem;
+        font-size: 2rem;
         line-height: 1;
         margin-bottom: 1rem;
+        word-break: break-word;
       }
     }
 
     .right-column {
       display: none;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .left-column {
+      width: 100%;
+      max-width: 100%;
+      min-width: unset;
+      padding: 0.5rem !important;
+      box-sizing: border-box;
+      font-size: 0.93rem;
+      word-break: break-word;
+    }
+    .left-column h1 {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+      word-break: break-word;
     }
   }
 `;

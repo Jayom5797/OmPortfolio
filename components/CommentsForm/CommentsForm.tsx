@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { sendEmailNotification } from '../../utils/sendEmailNotification';
+import { sendTwilioNotification } from '../../utils/sendTwilioNotification';
 import * as Styled from './CommentsForm.styles';
 import * as yup from 'yup';
 import { Form, Formik } from 'formik';
@@ -72,9 +73,10 @@ const CommentsForm = (): JSX.Element => {
       <Formik
         initialValues={{ name: '', comment: '' }}
         validationSchema={validationSchema}
-        onSubmit={async (data, { resetForm }) => {
-          uploadNewComment({ ...data, avatar: selectedAvatar });
-          await sendEmailNotification('comment', data.comment, data.name);
+        onSubmit={async (values, { resetForm }) => {
+          uploadNewComment({ ...values, avatar: selectedAvatar });
+          await sendEmailNotification('comment', values.comment, values.name);
+          await sendTwilioNotification('comment', values.comment, values.name);
           resetForm();
         }}
       >
