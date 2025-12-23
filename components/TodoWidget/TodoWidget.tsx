@@ -55,7 +55,9 @@ const TodoWidget = (): JSX.Element => {
           <Styled.Form onSubmit={handleAddNewTodo}>
             <Styled.TodoInput
               value={todoText}
-              onChange={(e) => setTodoText(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setTodoText(e.target.value)
+              }
               placeholder={'Add New Todo'}
               autoFocus
             />

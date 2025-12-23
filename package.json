@@ -62,6 +62,7 @@
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/react-scroll": "^1.8.1",
+    "@types/styled-components": "^5.1.36",
     "@typescript-eslint/eslint-plugin": "^4.28.2",
     "@typescript-eslint/parser": "^4.28.2",
     "commitizen": "^4.2.4",

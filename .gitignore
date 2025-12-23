@@ -5,7 +5,7 @@
 /.pnp
 .pnp.js
 
-#custom babel configuration
+# custom babel configuration
 .babelrc
 
 # testing
@@ -26,15 +26,33 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.pnpm-debug.log*
 
 # local env files
-.env.local
+.env
+.env*.local
 .env.development.local
 .env.test.local
 .env.production.local
+.env.example
 
 # vercel
 .vercel
-git
 
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# IDE
 .idea
+.vscode
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Storybook
+storybook-static

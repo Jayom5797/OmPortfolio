@@ -109,9 +109,13 @@ const DesktopButton = ({
             )}
             {variant === 'recommendedApp' && (
               <Styled.RecommendedAppDescription className="recommended-hide-on-mobile">
-                <Styled.FileName className="recommended-hide-on-mobile">{text}</Styled.FileName>
+                <Styled.FileName className="recommended-hide-on-mobile">
+                  {text}
+                </Styled.FileName>
                 {/* Paragraph does not support className, so wrap in span */}
-                <span className="recommended-hide-on-mobile"><Paragraph margin={'0rem'}>{details}</Paragraph></span>
+                <span className="recommended-hide-on-mobile">
+                  <Paragraph margin={'0rem'}>{details}</Paragraph>
+                </span>
               </Styled.RecommendedAppDescription>
             )}
           </Styled.Figure>
@@ -125,53 +129,6 @@ const DesktopButton = ({
         )}
       </Styled.Wrapper>
     </>
-  );
-
-  return (
-    <Styled.Wrapper>
-      <Styled.ButtonContainer
-        ref={buttonRef}
-        onClick={action !== null ? action : handleOpenWindow}
-        onContextMenu={handleOpenContextMenu}
-        iconSize={iconsSize}
-        variant={variant}
-        {...rest}
-      >
-        <Styled.Figure>
-          <div>
-            <Image
-              src={iconSrc}
-              alt={text}
-              height={iconSize.height}
-              width={iconSize.width}
-              objectFit={'contain'}
-              quality={100}
-            />
-          </div>
-          {['pinnedApp', 'desktop'].includes(variant) && (
-            <Styled.Figcaption>
-              <Paragraph margin={'0rem'}>{text}</Paragraph>
-            </Styled.Figcaption>
-          )}
-
-          {variant === 'recommendedApp' && (
-        <Styled.RecommendedAppDescription className="recommended-hide-on-mobile">
-          <Styled.FileName className="recommended-hide-on-mobile">{text}</Styled.FileName>
-          {/* Paragraph does not support className, so wrap in span */}
-          <span className="recommended-hide-on-mobile"><Paragraph margin={'0rem'}>{details}</Paragraph></span>
-        </Styled.RecommendedAppDescription>
-      )}    )}
-        </Styled.Figure>
-      </Styled.ButtonContainer>
-
-      {variant === 'desktop' && isContextMenuOpen && (
-        <AppContextMenu
-          appName={text}
-          iconSrc={iconSrc}
-          willOpenWindowWith={willOpenWindowWith}
-        />
-      )}
-    </Styled.Wrapper>
   );
 };
 export default DesktopButton;

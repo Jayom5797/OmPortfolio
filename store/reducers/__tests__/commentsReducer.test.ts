@@ -18,6 +18,7 @@ const mockComment: IComment = {
   _id: 'xyz',
   comment: 'some comment',
   author: 'TOMATO',
+  avatar: 1,
   createdAt: '2021',
   isApproved: true,
 };
