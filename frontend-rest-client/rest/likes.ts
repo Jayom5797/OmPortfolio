@@ -1,8 +1,10 @@
 import { AxiosResponse } from 'axios';
 import { makeRequest } from '../makeRequest';
 
-// Fetch all likes
-export const getAllLikesFromDB = (): Promise<AxiosResponse<any[]>> => {
+// Fetch like count
+export const getAllLikesFromDB = (): Promise<
+  AxiosResponse<{ count: number }>
+> => {
   return makeRequest({
     url: '/api/likes',
     method: 'GET',
@@ -10,11 +12,12 @@ export const getAllLikesFromDB = (): Promise<AxiosResponse<any[]>> => {
 };
 
 // Add a like
-export const persistNewLikeToDB = (user_id: string): Promise<AxiosResponse<any>> => {
+export const persistNewLikeToDB = (): Promise<
+  AxiosResponse<{ success: boolean; count: number }>
+> => {
   return makeRequest({
     url: '/api/likes',
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    data: { user_id },
   });
 };

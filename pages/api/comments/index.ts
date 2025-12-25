@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import redis from '../../../utils/redisClient';
 
 interface Comment {
-  id: string;
+  _id: string;
   author: string;
   comment: string;
   avatar: number;
@@ -19,8 +19,13 @@ export default async function handler(
       // Get all comments from Redis
       const comments = (await redis.get<Comment[]>('comments')) || [];
 
-      // Filter only approved comments
-      const approvedComments = comments.filter((c) => c.isApproved);
+      // Filter only approved comments and sort by date (newest first)
+      const approvedComments = comments
+        .filter((c) => c.isApproved)
+        .sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
 
       res.status(200).json(approvedComments);
     } catch (error) {
@@ -44,7 +49,7 @@ export default async function handler(
 
       // Create new comment
       const newComment: Comment = {
-        id: Date.now().toString(),
+        _id: Date.now().toString(),
         author: name,
         comment,
         avatar: avatar || 1,

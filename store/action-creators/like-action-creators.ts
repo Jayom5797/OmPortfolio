@@ -16,7 +16,7 @@ export const getAllLikes = () => {
       const { data } = await getAllLikesFromDB();
       dispatch({
         type: LikesActionTypes.LIKES_DID_LOAD,
-        payload: data.length,
+        payload: data.count || 0,
       });
     } catch (error) {
       dispatch({
@@ -27,14 +27,19 @@ export const getAllLikes = () => {
   };
 };
 
-export const postLike = (user_id: string) => {
+export const postLike = () => {
   return async (dispatch: Dispatch<LikeAction>): Promise<void> => {
     dispatch({ type: LikesActionTypes.PERSIST_LIKE });
     try {
-      await persistNewLikeToDB(user_id);
+      const { data } = await persistNewLikeToDB();
       dispatch({
         type: LikesActionTypes.LIKE_WAS_PERSISTED,
         payload: true,
+      });
+      // Update the count after successful like
+      dispatch({
+        type: LikesActionTypes.LIKES_DID_LOAD,
+        payload: data.count || 0,
       });
     } catch (error) {
       dispatch({
