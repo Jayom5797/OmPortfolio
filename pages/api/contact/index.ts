@@ -1,13 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import redis from '../../../utils/redisClient';
-
-interface ContactMessage {
-  id: string;
-  name: string;
-  email: string;
-  message: string;
-  createdAt: string;
-}
+import pool from '../../../utils/db';
 
 export default async function handler(
   req: NextApiRequest,
@@ -24,29 +16,16 @@ export default async function handler(
         return;
       }
 
-      // Get existing contacts
-      const contacts = (await redis.get<ContactMessage[]>('contacts')) || [];
-
-      // Create new contact message
-      const newContact: ContactMessage = {
-        id: Date.now().toString(),
-        name,
-        email,
-        message,
-        createdAt: new Date().toISOString(),
-      };
-
-      // Add to contacts array
-      contacts.push(newContact);
-
-      // Save to Redis
-      await redis.set('contacts', contacts);
+      await pool.query(
+        'INSERT INTO contacts (name, email, message) VALUES ($1, $2, $3)',
+        [name, email, message]
+      );
 
       res
         .status(200)
         .json({ success: true, message: 'Message received successfully' });
     } catch (error) {
-      console.error('Redis error:', error);
+      console.error('Contact POST error:', error);
       res.status(500).json({ error: 'Failed to save contact message' });
     }
     return;

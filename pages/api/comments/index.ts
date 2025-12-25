@@ -1,13 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import redis from '../../../utils/redisClient';
+import pool from '../../../utils/db';
 
 interface Comment {
-  _id: string;
+  id: number;
   author: string;
   comment: string;
   avatar: number;
-  createdAt: string;
-  isApproved: boolean;
+  created_at: string;
+  is_approved: boolean;
 }
 
 export default async function handler(
@@ -16,20 +16,22 @@ export default async function handler(
 ): Promise<void> {
   if (req.method === 'GET') {
     try {
-      // Get all comments from Redis
-      const comments = (await redis.get<Comment[]>('comments')) || [];
+      const result = await pool.query<Comment>(
+        'SELECT id, author, comment, avatar, created_at, is_approved FROM comments WHERE is_approved = true ORDER BY created_at DESC'
+      );
 
-      // Filter only approved comments and sort by date (newest first)
-      const approvedComments = comments
-        .filter((c) => c.isApproved)
-        .sort(
-          (a, b) =>
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        );
+      const comments = result.rows.map((row) => ({
+        _id: row.id.toString(),
+        author: row.author,
+        comment: row.comment,
+        avatar: row.avatar,
+        createdAt: row.created_at,
+        isApproved: row.is_approved,
+      }));
 
-      res.status(200).json(approvedComments);
+      res.status(200).json(comments);
     } catch (error) {
-      console.error('Redis error:', error);
+      console.error('Comments GET error:', error);
       res.status(200).json([]);
     }
     return;
@@ -44,30 +46,17 @@ export default async function handler(
         return;
       }
 
-      // Get existing comments
-      const comments = (await redis.get<Comment[]>('comments')) || [];
+      await pool.query(
+        'INSERT INTO comments (author, comment, avatar) VALUES ($1, $2, $3)',
+        [name, comment, avatar || 1]
+      );
 
-      // Create new comment
-      const newComment: Comment = {
-        _id: Date.now().toString(),
-        author: name,
-        comment,
-        avatar: avatar || 1,
-        createdAt: new Date().toISOString(),
-        isApproved: false, // Requires manual approval
-      };
-
-      // Add to comments array
-      comments.push(newComment);
-
-      // Save back to Redis
-      await redis.set('comments', comments);
-
-      res
-        .status(201)
-        .json({ success: true, message: 'Comment submitted for approval' });
+      res.status(201).json({
+        success: true,
+        message: 'Comment submitted for approval',
+      });
     } catch (error) {
-      console.error('Redis error:', error);
+      console.error('Comments POST error:', error);
       res.status(500).json({ error: 'Failed to save comment' });
     }
     return;

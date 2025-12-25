@@ -1,17 +1,15 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import redis from '../../../utils/redisClient';
+import pool from '../../../utils/db';
 
 interface Comment {
-  _id: string;
+  id: number;
   author: string;
   comment: string;
   avatar: number;
-  createdAt: string;
-  isApproved: boolean;
+  created_at: string;
+  is_approved: boolean;
 }
 
-// Simple admin endpoint to approve comments
-// In production, add proper authentication
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -20,7 +18,6 @@ export default async function handler(
     try {
       const { commentId, adminKey } = req.body;
 
-      // Simple admin key check (replace with proper auth in production)
       if (adminKey !== process.env.ADMIN_SECRET_KEY) {
         res.status(401).json({ error: 'Unauthorized' });
         return;
@@ -31,25 +28,13 @@ export default async function handler(
         return;
       }
 
-      // Get all comments
-      const comments = (await redis.get<Comment[]>('comments')) || [];
-
-      // Find and approve the comment
-      const commentIndex = comments.findIndex((c) => c._id === commentId);
-
-      if (commentIndex === -1) {
-        res.status(404).json({ error: 'Comment not found' });
-        return;
-      }
-
-      comments[commentIndex].isApproved = true;
-
-      // Save back to Redis
-      await redis.set('comments', comments);
+      await pool.query('UPDATE comments SET is_approved = true WHERE id = $1', [
+        commentId,
+      ]);
 
       res.status(200).json({ success: true, message: 'Comment approved' });
     } catch (error) {
-      console.error('Redis error:', error);
+      console.error('Comment approval error:', error);
       res.status(500).json({ error: 'Failed to approve comment' });
     }
     return;
@@ -59,18 +44,27 @@ export default async function handler(
     try {
       const { adminKey } = req.query;
 
-      // Simple admin key check
       if (adminKey !== process.env.ADMIN_SECRET_KEY) {
         res.status(401).json({ error: 'Unauthorized' });
         return;
       }
 
-      // Get all comments (including unapproved)
-      const comments = (await redis.get<Comment[]>('comments')) || [];
+      const result = await pool.query<Comment>(
+        'SELECT id, author, comment, avatar, created_at, is_approved FROM comments ORDER BY created_at DESC'
+      );
+
+      const comments = result.rows.map((row) => ({
+        _id: row.id.toString(),
+        author: row.author,
+        comment: row.comment,
+        avatar: row.avatar,
+        createdAt: row.created_at,
+        isApproved: row.is_approved,
+      }));
 
       res.status(200).json(comments);
     } catch (error) {
-      console.error('Redis error:', error);
+      console.error('Comments fetch error:', error);
       res.status(500).json({ error: 'Failed to fetch comments' });
     }
     return;

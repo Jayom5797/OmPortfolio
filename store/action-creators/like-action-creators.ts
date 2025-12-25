@@ -27,11 +27,11 @@ export const getAllLikes = () => {
   };
 };
 
-export const postLike = () => {
+export const postLike = (name: string) => {
   return async (dispatch: Dispatch<LikeAction>): Promise<void> => {
     dispatch({ type: LikesActionTypes.PERSIST_LIKE });
     try {
-      const { data } = await persistNewLikeToDB();
+      const { data } = await persistNewLikeToDB(name);
       dispatch({
         type: LikesActionTypes.LIKE_WAS_PERSISTED,
         payload: true,
