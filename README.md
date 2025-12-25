@@ -46,7 +46,7 @@ A Windows 11-inspired portfolio website featuring a fully interactive desktop en
 - Three.js & React Three Fiber (3D Graphics)
 
 **Backend & Services:**
-- PostgreSQL on Railway (Database)
+- Upstash Redis (Database - KV Store)
 - Twilio (WhatsApp Notifications)
 - EmailJS (Contact Form)
 - News API (Tech News Feed)
@@ -59,7 +59,7 @@ A Windows 11-inspired portfolio website featuring a fully interactive desktop en
 
 ## 🚀 Live Demo
 
-[View Live Portfolio](#) *(Link coming soon)*
+[View Live Portfolio](#) *(om07.vercel.app)*
 
 ## 📸 Screenshots
 
@@ -70,7 +70,7 @@ A Windows 11-inspired portfolio website featuring a fully interactive desktop en
 **Current Version:** 0.1.0
 
 **In Progress:**
-- Migrating database from Supabase to PostgreSQL on Railway
+- Migrating database from Supabase to Upstash Redis
 - Updating projects section with latest work
 - Performance optimizations
 

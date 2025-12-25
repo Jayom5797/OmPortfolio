@@ -50,12 +50,4 @@ export const mockReduxStore: LocalRootState = {
     isCommentPersisted: false,
     isLoading: false,
   },
-
-  articles: {
-    articles: [],
-    areArticlesLoading: false,
-    filterOptions: [],
-    sortArticlesBy: 'date',
-    error: null,
-  },
 };

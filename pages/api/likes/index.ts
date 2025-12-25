@@ -1,49 +1,35 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { supabase } from '../../../utils/supabaseClient';
+import redis from '../../../utils/redisClient';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<void> {
   if (req.method === 'GET') {
     try {
-      const { data, error } = await supabase
-        .from('likes')
-        .select('*')
-        .order('created_at', { ascending: false });
-      
-      if (error) {
-        console.error('Supabase error:', error);
-        // Return empty array if Supabase is not configured
-        return res.status(200).json([]);
-      }
-      return res.status(200).json(data || []);
+      // Get like count from Redis
+      const count = (await redis.get<number>('likes:count')) || 0;
+
+      res.status(200).json({ count });
     } catch (error) {
-      console.error('API error:', error);
-      return res.status(200).json([]);
+      console.error('Redis error:', error);
+      res.status(200).json({ count: 0 });
     }
+    return;
   }
-  
+
   if (req.method === 'POST') {
     try {
-      const { user_id } = req.body;
-      
-      if (!user_id) {
-        return res.status(400).json({ error: 'User ID is required' });
-      }
+      // Increment like count
+      const newCount = await redis.incr('likes:count');
 
-      const { data, error } = await supabase
-        .from('likes')
-        .insert([{ user_id }]);
-      
-      if (error) {
-        console.error('Supabase error:', error);
-        // Return success even if Supabase fails (for demo purposes)
-        return res.status(201).json({ success: true, message: 'Like saved (demo mode)' });
-      }
-      return res.status(201).json({ success: true, data });
+      res.status(200).json({ success: true, count: newCount });
     } catch (error) {
-      console.error('API error:', error);
-      return res.status(201).json({ success: true, message: 'Like saved (demo mode)' });
+      console.error('Redis error:', error);
+      res.status(500).json({ error: 'Failed to increment likes' });
     }
+    return;
   }
-  
-  res.status(405).end();
+
+  res.status(405).json({ error: 'Method not allowed' });
 }
