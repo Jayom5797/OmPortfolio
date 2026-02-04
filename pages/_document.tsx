@@ -39,7 +39,7 @@ export default class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          <meta name="google-site-verification" content="R6IaU1XyX01civB4cqwaeRydQJgiVYiepk_nLQpgTJg" />
+          <meta name="google-site-verification" content="BJ_K97Y5ffOXaarlK8J6q2SZ-L7osn8-8G96yPSAXPE" />
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link
